@@ -8,5 +8,3 @@ class Tests(unittest.TestCase):
         for p in pairs:
             self.assertTrue(strings_overlap(p[0], p[1]), p[3])
             self.assertTrue(strings_merge(p[0], p[1]), p[2])
-suite = unittest.TestLoader().loadTestsFromTestCase(Tests)
-unittest.TextTestRunner(verbosity=2).run(suite)
