@@ -1,5 +1,9 @@
 from copy import deepcopy
 from numpy import zeros, ix_, array, roll, argmax
+#GREEDY
+#################################################################
+########################2 approximation##########################
+#################################################################
 def strings_overlap(s1, s2):
     if (s1 in s2): return len(s1)
     if (s2 in s1): return len(s2)
@@ -20,18 +24,13 @@ def greedy_min_max_contain_string(strings):
         s.add(tmp)
         pairs = [(i, j, strings_overlap(i, j)) for i in s for j in s if not i is j]
     return [i for i in s][0]
-# print (greedy_min_max_contain_string(['hello', 'world', 'lol']))
 
 def min_max_contain_string(strings):
 #strings` must be set
     s = strings
     pairs = [(i, j, strings_overlap(i, j)) for i in s for j in s if not i is j]
-    # print ('--------')
-    # print (s)
-    # print (pairs)
     results = list()
     if len(s) == 1:
-        # print [i for i in s][0]
         return [i for i in s][0]
     for p in pairs:
         new_s = deepcopy(s)
@@ -46,14 +45,14 @@ s_strings = {'hello', 'world', 'lol'}
 
 def get_max_ind(ar):
     pos = argmax(ar)
-    # print(ar)
     return (int(pos / ar.shape[1]), int(pos % ar.shape[1]))
-
+#################################################################
+########################4 approximation##########################
+#################################################################
 class superstring4:
     def __init__(self, strings):
         self.n = len(strings)
         self.strings = strings
-        # print (self.n)
         self.ov = zeros((self.n, self.n))
         for i in range(self.n):
             for j in range(self.n):
@@ -67,7 +66,6 @@ class superstring4:
             mi = get_max_ind(self.ov[ix_(array(rows), array(cols))])
             mi = (rows[mi[0]], cols[mi[1]])
             asg[mi[0]] = mi[1]
-            # print(mi)
             if mi[0] in rows:
                 rows.remove(mi[0])
             if mi[1] in cols:
@@ -91,7 +89,6 @@ class superstring4:
             if not used[i]:
                 res.append(self.get_cycle(asg, i, used))
         return res
-        # print(self.ov[ix_([rows, cols])])
 
     #works only if second not contains in first(in the middle of the string)
     def pref(self, s1, s2):
@@ -107,7 +104,6 @@ class superstring4:
                 last = s
                 continue
             res = res + self.pref(last, s)
-            # print ('add pref of:', last, s, '=', self.pref(last, s))
             last = s
         res = res + strings[-1]
         return res
@@ -116,7 +112,6 @@ class superstring4:
         res = list()
         for i in range(len(cycle)):
             res.append(self.merge(roll(c, i)))
-        # print (res)
         return min(res, key=lambda x: len(x))
     def solve(self):
         cover = self.greedy_cover()
