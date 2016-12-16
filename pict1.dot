@@ -1,0 +1,15 @@
+digraph g{
+     // label - видимое название вершины
+     rankdir="LR";
+     c1 [shape=box, label="%#1*"]
+     c2 [shape=box, label="u2#u2*"]
+     c3 [shape=box, label="u3#u3*"]
+     cn [shape=box, label="u_(n-1)#u_(n-1)*"]
+     cc [shape=box, label="..."]
+     cl [shape=box, label="n#$"]
+     c1 -> c2 [label="STD(1*, u2)"]
+     c2 -> c3 [label="STD(u2*, u3)"]
+     c3 -> cc
+     cc -> cn
+     cn -> cl [label="STD(u_(n-1)*, n)"]
+}

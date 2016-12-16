@@ -1,4 +1,4 @@
-from copy import deepcopy
+from copy import deepcopy, copy
 from numpy import zeros, ix_, array, roll, argmax
 #GREEDY
 #################################################################
@@ -33,7 +33,7 @@ def min_max_contain_string(strings):
     if len(s) == 1:
         return [i for i in s][0]
     for p in pairs:
-        new_s = deepcopy(s)
+        new_s = copy(s)
         tmp = strings_merge(p[0], p[1])
         new_s.remove(p[0])
         new_s.remove(p[1])
@@ -99,24 +99,29 @@ class superstring4:
         assert(len(strings) > 0)
         res = ""
         last = strings[0]
+        lastlast = strings[0]
         for s in strings[1:]:
             if (s in last):
                 last = s
                 continue
+            lastlast = s
             res = res + self.pref(last, s)
             last = s
-        res = res + strings[-1]
+        res = res + lastlast#strings[-1]
         return res
     def rotate_max_cycle(self, cycle):
         c = array(cycle)
         res = list()
         for i in range(len(cycle)):
+            # print('$', roll(c, i))
             res.append(self.merge(roll(c, i)))
+        # print('@',res)
         return min(res, key=lambda x: len(x))
     def solve(self):
         cover = self.greedy_cover()
         res = ""
         for c in cover:
             s = [self.strings[int(i)] for i in c]
+            # print ("!", s)
             res = res + self.rotate_max_cycle(s)
         return res
